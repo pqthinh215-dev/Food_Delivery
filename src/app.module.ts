@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module.js';
-import { FoodModule } from './food/food.module.js';
-import { RestaurantModule } from './restaurant/restaurant.module.js';
-import { FoodTypeModule } from './food_type/food_type.module.js';
-import { RateResModule } from './rate_res/rate_res.module.js';
-import { SubFoodModule } from './sub_food/sub_food.module.js';
-import { OrderFoodModule } from './order_food/order_food.module.js';
+import { UserModule } from './modules/user/user.module.js';
+import { FoodModule } from './modules/food/food.module.js';
+import { RestaurantModule } from './modules/restaurant/restaurant.module.js';
+import { FoodTypeModule } from './modules/food_type/food_type.module.js';
+import { RateResModule } from './modules/rate_res/rate_res.module.js';
+import { SubFoodModule } from './modules/sub_food/sub_food.module.js';
+import { OrderFoodModule } from './modules/order_food/order_food.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
