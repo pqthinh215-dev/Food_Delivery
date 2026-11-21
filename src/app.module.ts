@@ -8,6 +8,8 @@ import { FoodTypeModule } from './modules/food_type/food_type.module.js';
 import { RateResModule } from './modules/rate_res/rate_res.module.js';
 import { SubFoodModule } from './modules/sub_food/sub_food.module.js';
 import { OrderFoodModule } from './modules/order_food/order_food.module.js';
+import { CatchEverythingFilter } from './common/filters/http-exception.filter.js';
+import { APP_FILTER } from '@nestjs/core';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -31,6 +33,11 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     OrderFoodModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [ 
+    {
+      provide: APP_FILTER,
+      useClass: CatchEverythingFilter,
+    },
+   ],
 })
 export class AppModule {}
