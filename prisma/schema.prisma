@@ -1,6 +1,5 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -15,7 +14,7 @@ model food {
   description String?      @db.VarChar(255)
   type_id     Int?
   food_type   food_type?   @relation(fields: [type_id], references: [type_id], onDelete: NoAction, onUpdate: NoAction, map: "food_ibfk_1")
-  order_food  order_food[] @ignore
+  order_food  order_food[]
   sub_food    sub_food[]
 
   @@index([type_id], map: "type_id")
@@ -27,8 +26,8 @@ model food_type {
   food      food[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model like_res {
+  id         Int         @id @default(autoincrement())
   user_id    Int?
   res_id     Int?
   date_like  DateTime?   @db.DateTime(0)
@@ -37,11 +36,10 @@ model like_res {
 
   @@index([res_id], map: "res_id")
   @@index([user_id], map: "user_id")
-  @@ignore
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model order_food {
+  id         Int     @id @default(autoincrement())
   user_id    Int?
   food_id    Int?
   amount     Int?
@@ -52,11 +50,10 @@ model order_food {
 
   @@index([food_id], map: "food_id")
   @@index([user_id], map: "user_id")
-  @@ignore
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model rate_res {
+  id         Int         @id @default(autoincrement())
   user_id    Int?
   res_id     Int?
   amount     Int?
@@ -66,7 +63,6 @@ model rate_res {
 
   @@index([res_id], map: "res_id")
   @@index([user_id], map: "user_id")
-  @@ignore
 }
 
 model restaurant {
@@ -74,8 +70,8 @@ model restaurant {
   res_name    String?    @db.VarChar(255)
   image       String?    @db.VarChar(255)
   description String?    @db.VarChar(255)
-  like_res    like_res[] @ignore
-  rate_res    rate_res[] @ignore
+  like_res    like_res[]
+  rate_res    rate_res[]
 }
 
 model sub_food {
@@ -93,7 +89,7 @@ model user {
   fullname   String?      @db.VarChar(255)
   email      String?      @db.VarChar(255)
   password   String?      @db.VarChar(255)
-  like_res   like_res[]   @ignore
-  order_food order_food[] @ignore
-  rate_res   rate_res[]   @ignore
+  like_res   like_res[]
+  order_food order_food[]
+  rate_res   rate_res[]
 }
