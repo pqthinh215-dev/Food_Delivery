@@ -12,6 +12,7 @@ import { OrderFoodModule } from './modules/order_food/order_food.module.js';
 import { CatchEverythingFilter } from './common/filters/http-exception.filter.js';
 import { APP_FILTER } from '@nestjs/core';
 import { PrismaModule } from './prisma/prisma.module.js';
+import { AuthModule } from './modules/auth/auth.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -32,6 +33,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     LikeResModule,
     SubFoodModule,
     OrderFoodModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [ 
