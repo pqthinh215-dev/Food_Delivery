@@ -7,7 +7,7 @@ import { CatchEverythingFilter } from '../../common/filters/http-exception.filte
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -15,8 +15,8 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    const users: User[] = this.userService.findAll();
+  async findAll() {
+    const users = await this.userService.findAll();
 
     if (!users || users.length === 0) {
       throw new NotFoundException('No users');
