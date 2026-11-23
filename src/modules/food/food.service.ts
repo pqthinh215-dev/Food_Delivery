@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFoodDto } from './dto/create-food.dto.js';
 import { UpdateFoodDto } from './dto/update-food.dto.js';
+import { PrismaService } from '../../prisma/prisma.service.js';
 
 @Injectable()
 export class FoodService {
+  constructor(private readonly prisma: PrismaService) {}
+
   create(createFoodDto: CreateFoodDto) {
-    return 'This action adds a new food';
+    return this.prisma.food.create({
+      data: createFoodDto,
+    });
   }
 
   findAll() {
-    return `This action returns all food`;
+    return this.prisma.food.findMany({
+      include: {
+        food_type: true,
+        sub_food: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} food`;
+  async findOne(id: number) {
+    const food = await this.prisma.food.findUnique({
+      where: { food_id: id },
+      include: {
+        food_type: true,
+        sub_food: true,
+      },
+    });
+
+    if (!food) {
+      throw new NotFoundException(`Food with ID #${id} not found`);
+    }
+
+    return food;
   }
 
-  update(id: number, updateFoodDto: UpdateFoodDto) {
-    return `This action updates a #${id} food`;
+  async update(id: number, updateFoodDto: UpdateFoodDto) {
+    await this.findOne(id);
+    return this.prisma.food.update({
+      where: { food_id: id },
+      data: updateFoodDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} food`;
+  async remove(id: number) {
+    await this.findOne(id);
+    return this.prisma.food.delete({
+      where: { food_id: id },
+    });
   }
 }

@@ -1,16 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 
-
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   create(createUserDto: CreateUserDto) {
     return this.prisma.user.create({
       data: createUserDto,
+      select: {
+        user_id: true,
+        fullname: true,
+        email: true,
+      },
     });
   }
 
@@ -24,15 +28,48 @@ export class UserService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { user_id: id },
+      select: {
+        user_id: true,
+        fullname: true,
+        email: true,
+        like_res: true,
+        rate_res: true,
+        order_food: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID #${id} not found`);
+    }
+
+    return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    await this.findOne(id);
+    return this.prisma.user.update({
+      where: { user_id: id },
+      data: updateUserDto,
+      select: {
+        user_id: true,
+        fullname: true,
+        email: true,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    await this.findOne(id);
+    return this.prisma.user.delete({
+      where: { user_id: id },
+      select: {
+        user_id: true,
+        fullname: true,
+        email: true,
+      },
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module.js';
@@ -6,6 +6,7 @@ import { FoodModule } from './modules/food/food.module.js';
 import { RestaurantModule } from './modules/restaurant/restaurant.module.js';
 import { FoodTypeModule } from './modules/food_type/food_type.module.js';
 import { RateResModule } from './modules/rate_res/rate_res.module.js';
+import { LikeResModule } from './modules/like_res/like_res.module.js';
 import { SubFoodModule } from './modules/sub_food/sub_food.module.js';
 import { OrderFoodModule } from './modules/order_food/order_food.module.js';
 import { CatchEverythingFilter } from './common/filters/http-exception.filter.js';
@@ -28,6 +29,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     RestaurantModule,
     FoodTypeModule,
     RateResModule,
+    LikeResModule,
     SubFoodModule,
     OrderFoodModule,
   ],
